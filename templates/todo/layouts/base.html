@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    {% include 'todo/layouts/head.html' %}
+
+    <body>
+        <aside id="left-panel" class="left-panel">
+            {% include 'todo/layouts/navbar.html' %}
+        </aside>
+
+        <div id="right-panel" class="right-panel">
+            {% include 'todo/layouts/header.html' %}
+
+            {% block content %}{% endblock content %}
+
+            <div class="clearfix"></div>
+
+            {% include 'todo/layouts/footer.html' %}
+        </div>
+
+        {% include 'todo/layouts/scripts.html' %}
+    </body>
+</html>
