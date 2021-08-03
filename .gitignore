@@ -5,6 +5,10 @@
 .AppleDouble
 .LSOverride
 
+# Idle 
+.idea/
+
+
 # Icon must end with two \r
 Icon
 
