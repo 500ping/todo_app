@@ -84,6 +84,8 @@ jQuery(document).ready(function($) {
 		// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 		const modal = $(this);
 
+		modal.find('.modal-body #task-type').val(type);
+
 		if (type === 'new') {
 			modal.find('.modal-title').text('Add new task');
 			modal.find('.modal-body #task-name').val('');
@@ -92,23 +94,57 @@ jQuery(document).ready(function($) {
 			const taskName = button.data('taskname');
 			const taskStatus = button.data('taskstatus');
 
-			console.log(taskStatus);
-
 			modal.find('.modal-title').text('Edit task');
 			modal.find('.modal-body #task-name').val(taskName);
 			modal.find('.modal-body #task-status').prop('checked', taskStatus === 'True' ? true : false);
 		};
 	});
 
-	$('#save-task').on('click', function() {
-		var taskName = $('#add-task-modal #task-name').val();
-		var taskStatus = $('#add-task-modal #task-status').is(':checked');
-		createTask(taskName, taskStatus);
-		$('#add-task-modal').modal('hide');
-    });
+	$('#task-form').submit(function(event) {
+		event.preventDefault();
+
+		const form = $(this);
+
+		const taskType = form.find('#task-type').val();
+		const taskName = form.find('#task-name').val();
+		const taskStatus = form.find('#task-status').is(':checked');		
+
+		if (taskType === 'new') {
+			const csrftoken = form.find("[name='csrfmiddlewaretoken']").val();
+
+			function csrfSafeMethod(method) {
+				// these HTTP methods do not require CSRF protection
+				return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+			}
+	
+			$.ajaxSetup({
+				beforeSend: function (xhr, settings) {
+					if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+						xhr.setRequestHeader("X-CSRFToken", csrftoken);
+					}
+				}
+			});
+	
+			let dataPayload = {
+				name: taskName,
+				status: taskStatus,
+			};
+
+			$.post('/task/', dataPayload).done(function (response) {
+				console.log(response.status)
+				if (response.status === 'success') {
+					createTask(taskName, taskStatus);
+				} else {
+					alert(response.status);
+				}
+			});
+
+			$('#add-task-modal').modal('hide');
+		};
+	});
 
 	function createTask(taskName, taskStatus) {
-		var task = `<li class="drag">
+		const task = `<li class="drag">
 						<label>
 							<input type="checkbox" ${taskStatus ? 'checked' : ''}><i class="check-box"></i><span>${taskName}</span>
 							<a href='#' class="fa fa-times"></a>
