@@ -1,5 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views.generic import ListView
 
-def index(request):
-    return render(request, 'todo/index.html', {})
+from .models import Task
+
+
+class TaskListView(ListView):
+    queryset = Task.objects.all().order_by('create_date')
+    template_name = 'todo/index.html'
+    context_object_name = 'tasks'

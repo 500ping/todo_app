@@ -10,9 +10,6 @@ jQuery(document).ready(function($) {
 
 	jQuery('.selectpicker').selectpicker;
 
-
-	
-
 	$('.search-trigger').on('click', function(event) {
 		event.preventDefault();
 		event.stopPropagation();
@@ -29,16 +26,12 @@ jQuery(document).ready(function($) {
 		property: 'max-height'
 	});
 
-	// var chartsheight = $('.flotRealtime2').height();
-	// $('.traffic-chart').css('height', chartsheight-122);
-
-
 	// Counter Number
 	$('.count').each(function () {
 		$(this).prop('Counter',0).animate({
 			Counter: $(this).text()
 		}, {
-			duration: 3000,
+			duration: 1000,
 			easing: 'swing',
 			step: function (now) {
 				$(this).text(Math.ceil(now));
@@ -46,9 +39,6 @@ jQuery(document).ready(function($) {
 		});
 	});
 
-
-	 
-	 
 	// Menu Trigger
 	$('#menuToggle').on('click', function(event) {
 		var windowWidth = $(window).width();   		 
@@ -65,7 +55,6 @@ jQuery(document).ready(function($) {
 		} 
 			 
 	}); 
-
 	 
 	$(".menu-item-has-children.dropdown").each(function() {
 		$(this).on('click', function() {
@@ -73,7 +62,6 @@ jQuery(document).ready(function($) {
 			$(this).children('.sub-menu').prepend('<li class="subtitle">' + $temp_text + '</li>'); 
 		});
 	});
-
 
 	// Load Resize 
 	$(window).on("load resize", function(event) { 
@@ -85,6 +73,50 @@ jQuery(document).ready(function($) {
 		} 
 		
 	});
-  
- 
+
+	// Add Task
+	$('#add-task-modal').on('show.bs.modal', function (event) {
+		const button = $(event.relatedTarget); // Button that triggered the modal
+
+		const type = button.data('type'); // Extract info from data-* attributes
+
+		// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+		// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+		const modal = $(this);
+
+		if (type === 'new') {
+			modal.find('.modal-title').text('Add new task');
+			modal.find('.modal-body #task-name').val('');
+			modal.find('.modal-body #task-status').prop('checked', false);
+		} else {
+			const taskName = button.data('taskname');
+			const taskStatus = button.data('taskstatus');
+
+			console.log(taskStatus);
+
+			modal.find('.modal-title').text('Edit task');
+			modal.find('.modal-body #task-name').val(taskName);
+			modal.find('.modal-body #task-status').prop('checked', taskStatus === 'True' ? true : false);
+		};
+	});
+
+	$('#save-task').on('click', function() {
+		var taskName = $('#add-task-modal #task-name').val();
+		var taskStatus = $('#add-task-modal #task-status').is(':checked');
+		createTask(taskName, taskStatus);
+		$('#add-task-modal').modal('hide');
+    });
+
+	function createTask(taskName, taskStatus) {
+		var task = `<li class="drag">
+						<label>
+							<input type="checkbox" ${taskStatus ? 'checked' : ''}><i class="check-box"></i><span>${taskName}</span>
+							<a href='#' class="fa fa-times"></a>
+							<a href='#' class="fa fa-pencil"></a>
+							<a href='#' class="fa fa-check"></a>
+						</label>
+					</li>`;
+		$('#list-tasks').append(task);
+	};
+
 });

@@ -1,0 +1,58 @@
+<div class="col-lg-8">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title box-title d-flex justify-content-between align-items-center">
+                To Do List 
+                <button class="btn float-right" data-toggle="modal" data-target="#add-task-modal" data-type="new"><i class="fa fa-plus"></i></button>
+            </h4>
+            <div class="card-content">
+                <div class="todo-list">
+                    <div class="tdl-holder">
+                        <div class="tdl-content">
+                            <ul id="list-tasks">
+                                {% for task in tasks %}
+                                    <li>
+                                        <label>
+                                            <input type="checkbox" {% if task.status %}checked{% endif %}><i class="check-box"></i><span>{{ task.name }}</span>
+                                            <a href='#' class="fa fa-times"></a>
+                                            <a href="javascript:void(0);" data-toggle="modal" data-target="#add-task-modal" data-type="edit" data-taskname="{{ task.name }}" data-taskstatus="{{ task.status }}" class="fa fa-pencil"></a>
+                                            <a href='#' class="fa fa-check"></a>
+                                        </label>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- /.todo-list -->
+            </div>
+        </div> <!-- /.card-body -->
+    </div><!-- /.card -->
+</div>
+
+<!-- Add Task Modal-->
+<div class="modal fade none-border" id="add-task-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><strong>Add New Task</strong></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="task-name" class="col-form-label">Task name:</label>
+                    <input type="text" class="form-control" id="task-name">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="task-status">
+                    <label class="form-check-label" for="task-status">
+                        Done
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" id="save-task" class="btn btn-success waves-effect waves-light">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
