@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
+from django.forms.models import model_to_dict
 
 from .models import Task
 
@@ -28,7 +29,9 @@ def create_task(request):
 
         try:
             new_task.save()
+            return JsonResponse({
+                    'status':'success',
+                    'new_task': model_to_dict(new_task)
+                })
         except Exception as e:
             return JsonResponse({'status':e})
-        else:
-             return JsonResponse({'status':'success'})

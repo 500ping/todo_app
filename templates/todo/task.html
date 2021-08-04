@@ -15,7 +15,7 @@
                                         <label>
                                             <input type="checkbox" {% if task.status %}checked{% endif %}><i class="check-box"></i><span>{{ task.name }}</span>
                                             <a href='#' class="fa fa-times"></a>
-                                            <a href="javascript:void(0);" data-toggle="modal" data-target="#add-task-modal" data-type="edit" data-taskname="{{ task.name }}" data-taskstatus="{{ task.status }}" class="fa fa-pencil"></a>
+                                            <a href="javascript:void(0);" data-toggle="modal" data-target="#add-task-modal" data-type="edit" data-taskid="{{ task.id }}" data-taskname="{{ task.name }}" data-taskstatus="{{ task.status }}" class="fa fa-pencil"></a>
                                             <a href='#' class="fa fa-check"></a>
                                         </label>
                                     </li>
@@ -41,6 +41,7 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="task-type">
+                    <input type="hidden" id="task-id">
                     <div class="form-group">
                         <label for="task-name" class="col-form-label">Task name:</label>
                         <input type="text" class="form-control" id="task-name" required>

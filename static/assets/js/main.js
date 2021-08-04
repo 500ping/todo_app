@@ -91,10 +91,12 @@ jQuery(document).ready(function($) {
 			modal.find('.modal-body #task-name').val('');
 			modal.find('.modal-body #task-status').prop('checked', false);
 		} else {
+			const taskID = button.data('taskid');
 			const taskName = button.data('taskname');
 			const taskStatus = button.data('taskstatus');
 
 			modal.find('.modal-title').text('Edit task');
+			modal.find('.modal-body #task-id').val(taskID);
 			modal.find('.modal-body #task-name').val(taskName);
 			modal.find('.modal-body #task-status').prop('checked', taskStatus === 'True' ? true : false);
 		};
@@ -131,24 +133,24 @@ jQuery(document).ready(function($) {
 			};
 
 			$.post('/task/', dataPayload).done(function (response) {
-				console.log(response.status)
+				console.log(response.new_task);
 				if (response.status === 'success') {
-					createTask(taskName, taskStatus);
+					createTask(response.new_task.id, response.new_task.name, response.new_task.status);
 				} else {
 					alert(response.status);
-				}
+				};
 			});
 
 			$('#add-task-modal').modal('hide');
 		};
 	});
 
-	function createTask(taskName, taskStatus) {
+	function createTask(taskID, taskName, taskStatus) {
 		const task = `<li class="drag">
 						<label>
 							<input type="checkbox" ${taskStatus ? 'checked' : ''}><i class="check-box"></i><span>${taskName}</span>
 							<a href='#' class="fa fa-times"></a>
-							<a href='#' class="fa fa-pencil"></a>
+							<a href="javascript:void(0);" data-toggle="modal" data-target="#add-task-modal" data-type="edit" data-taskid="${taskID}" data-taskname="${taskName}" data-taskstatus="${taskStatus}" class="fa fa-pencil"></a>
 							<a href='#' class="fa fa-check"></a>
 						</label>
 					</li>`;
