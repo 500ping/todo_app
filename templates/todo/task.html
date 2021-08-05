@@ -11,11 +11,11 @@
                         <div class="tdl-content">
                             <ul id="list-tasks">
                                 {% for task in tasks %}
-                                    <li>
+                                    <li id="taskno-{{ task.id }}">
                                         <label>
                                             <input type="checkbox" {% if task.status %}checked{% endif %}><i class="check-box"></i><span>{{ task.name }}</span>
                                             <a href='#' class="fa fa-times"></a>
-                                            <a href="javascript:void(0);" data-toggle="modal" data-target="#add-task-modal" data-type="edit" data-taskid="{{ task.id }}" data-taskname="{{ task.name }}" data-taskstatus="{{ task.status }}" class="fa fa-pencil"></a>
+                                            <a href="javascript:void(0);" data-toggle="modal" data-target="#add-task-modal" data-type="edit" data-taskid="{{ task.id }}" class="fa fa-pencil"></a>
                                             <a href='#' class="fa fa-check"></a>
                                         </label>
                                     </li>

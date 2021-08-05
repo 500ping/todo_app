@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
@@ -32,6 +32,24 @@ def create_task(request):
             return JsonResponse({
                     'status':'success',
                     'new_task': model_to_dict(new_task)
+                })
+        except Exception as e:
+            return JsonResponse({'status':e})
+
+def edit_task(request, id):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        status =  True if request.POST.get('status') == 'true' else False
+
+        task = get_object_or_404(Task, id=id)
+        task.name = name
+        task.status = status
+
+        try:
+            task.save()
+            return JsonResponse({
+                    'status':'success',
+                    'task': model_to_dict(task)
                 })
         except Exception as e:
             return JsonResponse({'status':e})
