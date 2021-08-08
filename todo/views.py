@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 from .models import Task
 
@@ -11,7 +12,7 @@ User = get_user_model()
 
 @login_required()
 def index(request):
-    tasks = Task.objects.all().order_by('create_date')
+    tasks = Task.objects.filter(author=request.user, create_date__date=timezone.localdate()).order_by('create_date')
 
     return render(request, 'todo/index.html', {
         'tasks': tasks
@@ -22,12 +23,11 @@ def create_task(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         status =  True if request.POST.get('status') == 'true' else False
-        author = User.objects.filter(username='500ping')[0]
 
         new_task = Task()
         new_task.name = name
         new_task.status = status
-        new_task.author = author
+        new_task.author = request.user
 
         try:
             new_task.save()
