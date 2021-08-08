@@ -63,3 +63,15 @@ def delete_task(request, id):
                 })
     except Exception as e:
             return JsonResponse({'status':e})
+
+def change_status_task(request, id):
+    task = get_object_or_404(Task, id=id)
+    task.status = not task.status
+    try:
+        task.save()
+        return JsonResponse({
+                'status':'success',
+                'task': model_to_dict(task)
+            })
+    except Exception as e:
+        return JsonResponse({'status':e})

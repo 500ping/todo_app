@@ -161,23 +161,34 @@ jQuery(document).ready(function($) {
 	});
 
 	$('#list-tasks').on('click', '.delete-task-button', function () {
-		const id = $(this).data('taskid');
-		$.get('/task/' + id + '/delete/', {}).done(function (response) {
+		const taskID = $(this).data('taskid');
+		$.get('/task/' + taskID + '/delete/', {}).done(function (response) {
 			if (response.status === 'success') {
-				deleteTask(id);
+				deleteTask(taskID);
 			} else {
 				alert(response.status);
 			};
 		});
 	})
 
+	$('#list-tasks').on('click', 'input', function (event) {
+		event.preventDefault();
+		const taskID = $(this).data('taskid');
+		$.get('/task/' + taskID + '/change_status/', {}).done(function (response) {
+			if (response.status === 'success') {
+				editTask(response.task.id, response.task.name, response.task.status);
+			} else {
+				alert(response.status);
+			};
+		});
+	});
+
 	function createTask(taskID, taskName, taskStatus) {
 		const task = `<li id="taskno-${taskID}">
 						<label>
-							<input type="checkbox" ${taskStatus ? 'checked' : ''}><i class="check-box"></i><span>${taskName}</span>
+							<input type="checkbox" data-taskid="${taskID}" ${taskStatus ? 'checked' : ''}><i class="check-box"></i><span>${taskName}</span>
 							<a href='javascript:void(0);' data-taskid="${taskID}" class="fa fa-times delete-task-button"></a>
 							<a href="javascript:void(0);" data-toggle="modal" data-target="#add-task-modal" data-type="edit" data-taskid="${taskID}" class="fa fa-pencil"></a>
-							<a href='#' class="fa fa-check"></a>
 						</label>
 					</li>`;
 		$('#list-tasks').append(task);
