@@ -53,3 +53,13 @@ def edit_task(request, id):
                 })
         except Exception as e:
             return JsonResponse({'status':e})
+
+def delete_task(request, id):
+    task = get_object_or_404(Task, id=id)
+    try:
+        task.delete()
+        return JsonResponse({
+                    'status':'success',
+                })
+    except Exception as e:
+            return JsonResponse({'status':e})

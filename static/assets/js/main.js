@@ -74,7 +74,7 @@ jQuery(document).ready(function($) {
 		
 	});
 
-	// Add Task
+	// Task handle
 	$('#add-task-modal').on('show.bs.modal', function (event) {
 		const button = $(event.relatedTarget); // Button that triggered the modal
 
@@ -160,11 +160,22 @@ jQuery(document).ready(function($) {
 		};
 	});
 
+	$('#list-tasks').on('click', '.delete-task-button', function () {
+		const id = $(this).data('taskid');
+		$.get('/task/' + id + '/delete/', {}).done(function (response) {
+			if (response.status === 'success') {
+				deleteTask(id);
+			} else {
+				alert(response.status);
+			};
+		});
+	})
+
 	function createTask(taskID, taskName, taskStatus) {
 		const task = `<li id="taskno-${taskID}">
 						<label>
 							<input type="checkbox" ${taskStatus ? 'checked' : ''}><i class="check-box"></i><span>${taskName}</span>
-							<a href='#' class="fa fa-times"></a>
+							<a href='javascript:void(0);' data-taskid="${taskID}" class="fa fa-times delete-task-button"></a>
 							<a href="javascript:void(0);" data-toggle="modal" data-target="#add-task-modal" data-type="edit" data-taskid="${taskID}" class="fa fa-pencil"></a>
 							<a href='#' class="fa fa-check"></a>
 						</label>
@@ -177,5 +188,10 @@ jQuery(document).ready(function($) {
 		taskListElement.find('span').text(taskName);
 		taskListElement.find('input').prop('checked', taskStatus);
 	}
+
+	function deleteTask(taskID) {
+		const taskListElement = $('#taskno-' + taskID);
+		taskListElement.fadeOut(300);
+	};
 
 });
