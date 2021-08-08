@@ -90,7 +90,16 @@
                     <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
                     <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
                     <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
-                    <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                    {% comment %} <a class="nav-link" href="{% url 'account_logout' %}"><i class="fa fa-power -off"></i>Logout</a> {% endcomment %}
+
+                    {% comment %} Post logout for allauth lib {% endcomment %}
+                    <form method="post" action="{% url 'account_logout' %}">
+                        {% csrf_token %}
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                        {% endif %}
+                        <button type="submit" class="btn btn-link nav-link" ><i class="fa fa-power -off"></i>Logout</button>
+                    </form>
                 </div>
             </div>
         </div>

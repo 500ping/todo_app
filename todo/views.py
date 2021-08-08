@@ -3,19 +3,21 @@ from django.views.generic import ListView
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+from django.contrib.auth.decorators import login_required
 
 from .models import Task
 
-
 User = get_user_model()
 
+@login_required()
+def index(request):
+    tasks = Task.objects.all().order_by('create_date')
 
-class TaskListView(ListView):
-    queryset = Task.objects.all().order_by('create_date')
-    template_name = 'todo/index.html'
-    context_object_name = 'tasks'
+    return render(request, 'todo/index.html', {
+        'tasks': tasks
+    })
 
-
+@login_required()
 def create_task(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -36,6 +38,7 @@ def create_task(request):
         except Exception as e:
             return JsonResponse({'status':e})
 
+@login_required()
 def edit_task(request, id):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -54,6 +57,7 @@ def edit_task(request, id):
         except Exception as e:
             return JsonResponse({'status':e})
 
+@login_required()
 def delete_task(request, id):
     task = get_object_or_404(Task, id=id)
     try:
@@ -64,6 +68,7 @@ def delete_task(request, id):
     except Exception as e:
             return JsonResponse({'status':e})
 
+@login_required()
 def change_status_task(request, id):
     task = get_object_or_404(Task, id=id)
     task.status = not task.status
