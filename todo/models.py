@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -12,3 +13,6 @@ class Task(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    def get_today_tasks(user):
+        return Task.objects.filter(author=user, create_date__date=timezone.localdate()).order_by('create_date')
