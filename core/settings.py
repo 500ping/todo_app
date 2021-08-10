@@ -33,8 +33,11 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
+    'user',
     'todo',
     'handle404',
+
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -126,6 +129,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -135,3 +142,8 @@ SITE_ID = 1
 
 # Allauth settings
 LOGIN_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+# Use bootstrap 4 for django form
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

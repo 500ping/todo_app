@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
-from django.utils import timezone
 
 from .models import Task
 
@@ -12,7 +11,6 @@ User = get_user_model()
 
 @login_required()
 def index(request):
-    # tasks = Task.objects.filter(author=request.user, create_date__date=timezone.localdate()).order_by('create_date')
     tasks = Task.get_today_tasks(request.user)
 
     return render(request, 'todo/index.html', {

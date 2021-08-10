@@ -11,7 +11,17 @@
         <div id="right-panel" class="right-panel">
             {% include 'todo/layouts/header.html' %}
 
-            {% block content %}{% endblock content %}
+            <!-- Content -->
+            <div class="content">
+                <!-- Animated -->
+                <div class="animated fadeIn">
+
+                {% block content %}{% endblock content %}
+
+                </div>
+                <!-- .animated -->
+            </div>
+            <!-- /.content -->
 
             <div class="clearfix"></div>
 

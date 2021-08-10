@@ -1,34 +1,25 @@
 {% extends 'todo/layouts/base.html' %}
 
 {% block content %}
-    <!-- Content -->
-    <div class="content">
-        <!-- Animated -->
-        <div class="animated fadeIn">
-            <!-- Widgets  -->
-            <div class="row">
-                {% include 'todo/components/widgets.html' %}
-            </div>
-            <!-- /Widgets -->
-
-            <!--  Todo  -->
-            <div class="row">
-                {% include 'todo/components/task.html' %}
-
-                {% include 'todo/components/calendar.html' %}
-            </div>
-            <!--  /Todo -->
-            
-            <div class="clearfix"></div>
-            
-            <!-- Traffic -->
-            <div class="row">
-                {% include 'todo/components/chart.html' %}
-            </div>
-            <!-- Traffic -->
-        </div>
-        <!-- .animated -->
+    <!-- Widgets  -->
+    <div class="row">
+        {% include 'todo/components/widgets.html' %}
     </div>
-    <!-- /.content -->
+    <!-- /Widgets -->
+    
+    <!--  Todo  -->
+    <div class="row">
+        {% include 'todo/components/task.html' %}
+        {% include 'todo/components/calendar.html' %}
+    </div>
+    <!--  /Todo -->
+    
+    <div class="clearfix"></div>
+    
+    <!-- Traffic -->
+    <div class="row">
+        {% include 'todo/components/chart.html' %}
+    </div>
+    <!-- Traffic -->
 {% endblock content %}
 
