@@ -26,7 +26,22 @@ jQuery(document).ready(function($) {
 		property: 'max-height'
 	});
 
-	// Counter Number
+	// Widget Handler
+	const widgetSocket = new WebSocket(
+		'ws://'
+		+ window.location.host
+		+ '/ws/widget/'
+	);
+
+	widgetSocket.onmessage = function(e) {
+		const data = JSON.parse(e.data);
+		console.log(data);
+	};
+
+	widgetSocket.onclose = function(e) {
+		console.error('Chat socket closed unexpectedly');
+	};
+
 	$('.count').each(function () {
 		$(this).prop('Counter',0).animate({
 			Counter: $(this).text()
