@@ -14,6 +14,6 @@ class Task(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    def get_today_tasks(user):
+    def get_user_tasks(user):
         # return Task.objects.filter(author=user, create_date__date=timezone.localdate()).order_by('create_date')
         return Task.objects.filter(author=user).order_by('create_date')

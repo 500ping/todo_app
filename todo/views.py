@@ -11,7 +11,7 @@ User = get_user_model()
 
 @login_required()
 def index(request):
-    tasks = Task.get_today_tasks(request.user)
+    tasks = Task.get_user_tasks(request.user)
 
     return render(request, 'todo/index.html', {
         'tasks': tasks
