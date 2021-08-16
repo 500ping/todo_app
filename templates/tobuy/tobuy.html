@@ -27,13 +27,26 @@
                                     <td>{{ cart.price }}</td>
                                     <td>{{ cart.expect_date}}</td>
                                     <td class="text-right">
-                                        {% if cart.status == False %}
-                                            <a href="{% url 'tobuy_setdone' cart.id %}" class="fa fa-check"></a>
-                                            /
-                                        {% endif %}
-                                        <a href="{% url 'tobuy_edit' cart.id %}" class="fa fa-pencil"></a>
-                                        /
-                                        <a href="{% url 'tobuy_del' cart.id %}" class="fa fa-times delete-task-button"></a>
+                                        <div class="btn-group" role="group">
+                                            <form method="post" action="{% url 'tobuy_change_status' cart.id %}">
+                                                {% csrf_token %}
+                                                {% if cart.status == False %}
+                                                    <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-check"></i></button>
+                                                {% else %}
+                                                    <button type="submit" class="btn btn-secondary btn-sm"><i class="fa fa-undo"></i></button>
+                                                {% endif %}
+                                            </form>
+                                            &nbsp;
+                                            
+                                            <a class="btn btn-primary btn-sm" href="{% url 'tobuy_edit' cart.id %}" role="button"><i class="fa fa-pencil"></i></a>
+                                            &nbsp;
+
+                                            <form method="post" action="{% url 'tobuy_del' cart.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
+                                            </form>
+                                        </div>
+                                        
                                     </td>
                                 </tr>
                             {% endfor %}

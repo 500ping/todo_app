@@ -58,24 +58,26 @@ def edit_task(request, id):
 
 @login_required()
 def delete_task(request, id):
-    task = get_object_or_404(Task, id=id)
-    try:
-        task.delete()
-        return JsonResponse({
-                    'status':'success',
-                })
-    except Exception as e:
-            return JsonResponse({'status':e})
+    if request.method == 'POST':
+        task = get_object_or_404(Task, id=id)
+        try:
+            task.delete()
+            return JsonResponse({
+                        'status':'success',
+                    })
+        except Exception as e:
+                return JsonResponse({'status':e})
 
 @login_required()
 def change_status_task(request, id):
-    task = get_object_or_404(Task, id=id)
-    task.status = not task.status
-    try:
-        task.save()
-        return JsonResponse({
-                'status':'success',
-                'task': model_to_dict(task)
-            })
-    except Exception as e:
-        return JsonResponse({'status':e})
+    if request.method == 'POST':
+        task = get_object_or_404(Task, id=id)
+        task.status = not task.status
+        try:
+            task.save()
+            return JsonResponse({
+                    'status':'success',
+                    'task': model_to_dict(task)
+                })
+        except Exception as e:
+            return JsonResponse({'status':e})

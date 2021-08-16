@@ -13,7 +13,10 @@
                                 {% for task in tasks %}
                                     <li id="taskno-{{ task.id }}">
                                         <label>
-                                            <input type="checkbox" data-taskid="{{ task.id }}" {% if task.status %}checked{% endif %}><i class="check-box"></i><span>{{ task.name }}</span>
+                                            <input type="checkbox" data-taskid="{{ task.id }}" {% if task.status %}checked{% endif %}><i class="check-box"></i>
+                                            
+                                            <span>{{ task.name }}</span>
+
                                             <a href='javascript:void(0);' data-taskid="{{ task.id }}" class="fa fa-times delete-task-button"></a>
                                             <a href="javascript:void(0);" data-toggle="modal" data-target="#add-task-modal" data-type="edit" data-taskid="{{ task.id }}" class="fa fa-pencil"></a>
                                         </label>
