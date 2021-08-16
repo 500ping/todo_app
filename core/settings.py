@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     'user',
     'todo',
+    'tobuy',
     'handle404',
 
     'crispy_forms',
