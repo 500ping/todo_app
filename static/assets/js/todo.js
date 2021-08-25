@@ -47,6 +47,8 @@ jQuery(document).ready(function($) {
 			modal.find('.modal-body #task-name').val(taskName);
 			modal.find('.modal-body #task-status').prop('checked', taskStatus);
 		};
+		
+		setTimeout(function() { $('#task-name').focus() }, 200);
 	});
 
 	$('#task-form').submit(function(event) {
